@@ -199,13 +199,7 @@ fig_app.update_layout(height=700, width=1000,
                  
 # Step 4. Create a Dash layout
 app.layout = html.Div([
-                # adding a header and a paragraph
-                html.Div([
-                    html.H1("US Mobility Data"),
-                    html.P("Due to the capacity limitation of the website server, the mobility page will be presented as a gif")
-                         ], 
-                    style = {'padding' : '50px' , 
-                             'backgroundColor' : '#3aaab2'}),
+    
                  html.P([
                     html.Label("Choose a state"),
                     dcc.Dropdown(id = 'opt_s', options = opt_state,
