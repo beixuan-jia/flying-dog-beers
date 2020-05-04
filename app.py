@@ -8,6 +8,7 @@ from plotly.subplots import make_subplots
 
 # Step 1. Launch the application
 app = dash.Dash()
+server = app.server
 # Step 2. Import the dataset
 #df_google = pd.read_csv('https://raw.githubusercontent.com/yyyyyokoko/covid-19-challenge/master/US_Corona.csv')
 df_apple = pd.read_csv('apple_mobility.csv')
