@@ -195,7 +195,7 @@ fig_app.update_xaxes(tickangle=45, tickfont=dict(family='Rockwell', color='black
 
 fig_app.update_layout(height=700, width=1000, 
                     title = 'Time Series Plot for Mobility',
-                    hovermode = 'x unified')
+                    hovermode = 'closest')
                  
 # Step 4. Create a Dash layout
 app.layout = html.Div([
@@ -486,7 +486,7 @@ def update_fig(input2):
     
     fig_app.update_layout(height=700, width=1000, 
                         title = 'Time Series Plot for Mobility',
-                        hovermode = 'x unified')
+                        hovermode = 'closest')
 
     return fig_app
 
