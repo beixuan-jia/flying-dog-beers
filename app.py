@@ -194,7 +194,7 @@ for c in range(1, len(city)):
 fig_app.update_xaxes(tickangle=45, tickfont=dict(family='Rockwell', color='black', size=10))
 
 fig_app.update_layout(height=700, width=1000, 
-                    title = 'Time Series Plot for Mobility',
+                    title = 'Time Series Plot for Mobility in Major Cities',
                     hovermode = 'x unified')
                  
 # Step 4. Create a Dash layout
@@ -233,10 +233,9 @@ app.layout = html.Div([
                                     min = 0,
                                     max = 6,
                                     value = [1, 5])
-                        ], style = {'width' : '80%',
+                        ], style = {'width' : '85%',
                                     'fontSize' : '18px',
-                                    'padding-left' : '120px',
-                                    'padding-right' : '120px',
+                                    'padding-left' : '100px',
                                     'display': 'inline-block'}),
     
                 dcc.Graph(id = 'all_fig')
@@ -486,7 +485,7 @@ def update_fig(input2):
     fig_app.update_xaxes(tickangle=45, tickfont=dict(family='Rockwell', color='black', size=10))
     
     fig_app.update_layout(height=700, width=1000, 
-                        title = 'Time Series Plot for Mobility',
+                        title = 'Time Series Plot for Mobility in Major Cities',
                         hovermode = 'x unified')
 
     return fig_app
