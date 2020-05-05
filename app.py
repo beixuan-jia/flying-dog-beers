@@ -10,8 +10,7 @@ from plotly.subplots import make_subplots
 app = dash.Dash()
 server = app.server
 # Step 2. Import the dataset
-# df_google = pd.read_csv('US_Corona.csv')
-df_google = pd.read_csv('https://raw.githubusercontent.com/yyyyyokoko/covid-19-challenge/master/US_Corona.csv')
+df_google = pd.read_csv('US_Corona.csv')
 df_apple = pd.read_csv('apple_mobility.csv')
 # category dropdown 
 # state and county dropdown
@@ -34,8 +33,8 @@ dates = ['2020-02-29', '2020-03-07', '2020-03-14', '2020-03-21',
 ### Google Mobility
 fig = make_subplots(
     rows=2, cols=3,
-    subplot_titles=("Retail", "Grocery", "Parks", 
-                    "Transit", "Work", "Residential"))
+    subplot_titles=("Retail", "Residential", "Parks", 
+                    "Transit", "Work", "Grocery"))
 
 df0 = df_google[(df_google['State'] == "The Whole Country")]
 
@@ -45,10 +44,10 @@ fig.add_trace(go.Scatter(x = df0.Date, y = df0.Retail,
                                 color = 'rgb(229, 151, 50)')),
                     row=1, col=1)
 
-fig.add_trace(go.Scatter(x = df0.Date, y = df0.Grocery,
-                    name = 'Grocery',
+fig.add_trace(go.Scatter(x = df0.Date, y = df0.Residential,
+                    name = 'Residential',
                     line = dict(width = 2,
-                                color = 'rgb(51, 218, 230)')),
+                                color = 'rgb(242, 132, 227)')),
                     row=1, col=2)
 
 fig.add_trace(go.Scatter(x = df0.Date, y = df0.Parks,
@@ -69,10 +68,10 @@ fig.add_trace(go.Scatter(x = df0.Date, y = df0.Work,
                                 color = 'rgb(143, 132, 242)')),
                     row=2, col=2)
 
-fig.add_trace(go.Scatter(x = df0.Date, y = df0.Residential,
-                    name = 'Residential',
+fig.add_trace(go.Scatter(x = df0.Date, y = df0.Grocery,
+                    name = 'Grocery',
                     line = dict(width = 2,
-                                color = 'rgb(242, 132, 227)')),
+                                color = 'rgb(51, 218, 230)')),
                     row=2, col=3)
 
 fig.update_xaxes(tickangle=45, tickfont=dict(family='Rockwell', color='black', size=10))
@@ -196,11 +195,17 @@ fig_app.update_xaxes(tickangle=45, tickfont=dict(family='Rockwell', color='black
 
 fig_app.update_layout(height=700, width=1000, 
                     title = 'Time Series Plot for Mobility',
-                    hovermode = 'closest')
+                    hovermode = 'x unified')
                  
 # Step 4. Create a Dash layout
 app.layout = html.Div([
-    
+                # adding a header and a paragraph
+#                html.Div([
+#                    html.H1("US Mobility Data"),
+#                    html.P("Due to the capacity limitation of the website server, the mobility page will be presented as a gif")
+#                         ], 
+#                    style = {'padding' : '50px' , 
+#                             'backgroundColor' : '#3aaab2'}),
                  html.P([
                     html.Label("Choose a state"),
                     dcc.Dropdown(id = 'opt_s', options = opt_state,
@@ -228,9 +233,10 @@ app.layout = html.Div([
                                     min = 0,
                                     max = 6,
                                     value = [1, 5])
-                        ], style = {'width' : '85%',
+                        ], style = {'width' : '80%',
                                     'fontSize' : '18px',
-                                    'padding-left' : '100px',
+                                    'padding-left' : '120px',
+                                    'padding-right' : '120px',
                                     'display': 'inline-block'}),
     
                 dcc.Graph(id = 'all_fig')
@@ -268,8 +274,8 @@ def update_figure(input2, selected_state, selected_county):
 ##### Google Mobility
     fig = make_subplots(
     rows=2, cols=3,
-    subplot_titles=("Retail & recreation", "Grocery & pharmacy", "Parks", 
-                    "Transit", "Workplaces", "Residential Neighborhood"))
+    subplot_titles=("Retail & recreation", "Residential Neighborhood", "Parks", 
+                    "Transit", "Workplaces", "Grocery & pharmacy"))
     
     fig.add_trace(go.Scatter(x = df_4.Date, y = df_4.Retail,
                         name = 'Retail',
@@ -278,11 +284,11 @@ def update_figure(input2, selected_state, selected_county):
                                     color = 'rgb(229, 151, 50)')),
                         row=1, col=1)
     
-    fig.add_trace(go.Scatter(x = df_4.Date, y = df_4.Grocery,
-                        name = 'Grocery',
+    fig.add_trace(go.Scatter(x = df_4.Date, y = df_4.Residential,
+                        name = 'Residential',
                         fill = 'tozeroy',
                         line = dict(width = 2,
-                                    color = 'rgb(51, 218, 230)')),
+                                    color = 'rgb(242, 132, 227)')),
                         row=1, col=2)
     
     fig.add_trace(go.Scatter(x = df_4.Date, y = df_4.Parks,
@@ -306,11 +312,11 @@ def update_figure(input2, selected_state, selected_county):
                                     color = 'rgb(143, 132, 242)')),
                         row=2, col=2)
     
-    fig.add_trace(go.Scatter(x = df_4.Date, y = df_4.Residential,
-                        name = 'Residential',
+    fig.add_trace(go.Scatter(x = df_4.Date, y = df_4.Grocery,
+                        name = 'Grocery',
                         fill = 'tozeroy',
                         line = dict(width = 2,
-                                    color = 'rgb(242, 132, 227)')),
+                                    color = 'rgb(51, 218, 230)')),
                         row=2, col=3)
     
     fig.update_xaxes(tickangle=45, tickfont=dict(family='Rockwell', color='black', size=10))
@@ -481,10 +487,9 @@ def update_fig(input2):
     
     fig_app.update_layout(height=700, width=1000, 
                         title = 'Time Series Plot for Mobility',
-                        hovermode = 'closest')
+                        hovermode = 'x unified')
 
     return fig_app
 
 if __name__ == "__main__":
     app.run_server(debug=True, port=3004, use_reloader=False)
-
