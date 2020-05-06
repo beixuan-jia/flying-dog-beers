@@ -12,6 +12,10 @@ server = app.server
 # Step 2. Import the dataset
 df_google = pd.read_csv('US_Corona.csv')
 df_apple = pd.read_csv('apple_mobility.csv')
+
+# Step 3. Create a plotly figure
+##############################################################################
+### Google Mobility
 # category dropdown 
 # state and county dropdown
 state = df_google['State'].unique()
@@ -27,90 +31,6 @@ df_google['Date'] = pd.to_datetime(df_google.Date)
 df_apple['Date'] = pd.to_datetime(df_apple.Date)
 dates = ['2020-02-29', '2020-03-07', '2020-03-14', '2020-03-21',
          '2020-03-28', '2020-04-04', '2020-04-11']
-
-# Step 3. Create a plotly figure
-##############################################################################
-### Google Mobility
-fig = make_subplots(
-    rows=2, cols=3,
-    subplot_titles=("Retail", "Residential", "Parks", 
-                    "Transit", "Work", "Grocery"))
-
-df0 = df_google[(df_google['State'] == "The Whole Country")]
-
-fig.add_trace(go.Scatter(x = df0.Date, y = df0.Retail,
-                    name = 'Retail',
-                    line = dict(width = 2,
-                                color = 'rgb(229, 151, 50)')),
-                    row=1, col=1)
-
-fig.add_trace(go.Scatter(x = df0.Date, y = df0.Residential,
-                    name = 'Residential',
-                    line = dict(width = 2,
-                                color = 'rgb(242, 132, 227)')),
-                    row=1, col=2)
-
-fig.add_trace(go.Scatter(x = df0.Date, y = df0.Parks,
-                    name = 'Parks',
-                    line = dict(width = 2,
-                                color = 'rgb(61, 202, 169)')),
-                    row=1, col=3)
-
-fig.add_trace(go.Scatter(x = df0.Date, y = df0.Transit,
-                    name = 'Transit',
-                    line = dict(width = 2,
-                                color = 'rgb(148, 147, 159)')),
-                    row=2, col=1)
-
-fig.add_trace(go.Scatter(x = df0.Date, y = df0.Work,
-                    name = 'Work',
-                    line = dict(width = 2,
-                                color = 'rgb(143, 132, 242)')),
-                    row=2, col=2)
-
-fig.add_trace(go.Scatter(x = df0.Date, y = df0.Grocery,
-                    name = 'Grocery',
-                    line = dict(width = 2,
-                                color = 'rgb(51, 218, 230)')),
-                    row=2, col=3)
-
-fig.update_xaxes(tickangle=45, tickfont=dict(family='Rockwell', color='black', size=10))
-
-fig.update_layout(height=700, width=1000, 
-                    title = 'Time Series Plot for Mobility in' + str(df0['County'][0]),
-                    hovermode = 'closest', 
-                    shapes = [{'type': 'line', 'y0':0, 'y1': 0, 
-                                       'x0':'2020-03-07', 'x1':'2020-04-04', 
-                               'xref':'x1','yref':'y1',
-                               'line': {'color': 'black', 'width': 0.5}
-                               },
-                              {'type': 'line', 'y0':0, 'y1': 0, 
-                                       'x0':'2020-03-07', 'x1':'2020-04-04',
-                               'xref':'x2','yref':'y2',
-                               'line': {'color': 'black', 'width': 0.5}
-                               },
-                              {'type': 'line', 'y0':0, 'y1': 0, 
-                                       'x0':'2020-03-07', 'x1':'2020-04-04',
-                                       'xref':'x3','yref':'y3',
-                               'line': {'color': 'black', 'width': 0.5}
-                               },
-                               {'type': 'line', 'y0':0, 'y1': 0, 
-                                       'x0':'2020-03-07', 'x1':'2020-04-04',
-                                       'xref':'x4','yref':'y4',
-                               'line': {'color': 'black', 'width': 0.5}
-                               },
-                               {'type': 'line', 'y0':0, 'y1': 0, 
-                                       'x0':'2020-03-07', 'x1':'2020-04-04',
-                                       'xref':'x5','yref':'y5',
-                               'line': {'color': 'black', 'width': 0.5}
-                               },
-                               {'type': 'line', 'y0':0, 'y1': 0, 
-                                       'x0':'2020-03-07', 'x1':'2020-04-04',
-                                       'xref':'x6','yref':'y6',
-                               'line': {'color': 'black', 'width': 0.5}
-                               }
-                      ])
-
 ##############################################################################
 ### Apple Mobility
 # Define cities
@@ -118,94 +38,10 @@ city = ['New York City', 'Rome', 'London', 'Berlin', 'Toronto', 'Tokyo']
 fig_app = make_subplots(
     rows=2, cols=3,
     subplot_titles=('New York City', 'Rome', 'London', 'Berlin', 'Toronto', 'Tokyo'))
-
-df_US = df_apple[(df_apple['Region'] == city[0])]
-####### NYC
-traceapp1 = go.Scatter(x = df_US.Date, y = df_US.driving,
-                    name = 'Driving',
-                    mode='lines',
-                    line = dict(width = 1,
-                                color = 'rgb(131, 90, 241)'),
-                    stackgroup='one')
-                                
-
-traceapp2 = go.Scatter(x = df_US.Date, y = df_US.transit,
-                    name = 'Transit',
-                    mode='lines',
-                    line = dict(width = 1,
-                                color = 'rgb(111, 231, 219)'),
-                    stackgroup='one')
-
-traceapp3 = go.Scatter(x = df_US.Date, y = df_US.walking,
-                    name = 'Walking',
-                    mode='lines',
-                    line=dict(width = 1, 
-                              color='rgb(102, 255, 102)'),
-                    stackgroup='one')
-
-fig_app.add_trace(traceapp3,
-              row=1, col=1)
-fig_app.add_trace(traceapp2,
-              row=1, col=1)
-fig_app.add_trace(traceapp1,
-              row=1, col=1)
-
-for c in range(1, len(city)): 
-#    print(c, city[c])
-    df_apple_city = df_apple[(df_apple['Region'] == city[c])]
-    
-    traceapp1 = go.Scatter(x = df_apple_city.Date, y = df_apple_city.driving,
-                    name = 'Driving',
-                    mode='lines',
-                    line = dict(width = 1,
-                                color = 'rgb(131, 90, 241)'),
-                    stackgroup='one', showlegend= False)
-                                
-
-    traceapp2 = go.Scatter(x = df_apple_city.Date, y = df_apple_city.transit,
-                        name = 'Transit',
-                        mode='lines',
-                        line = dict(width = 1,
-                                    color = 'rgb(111, 231, 219)'),
-                        stackgroup='one', showlegend= False)
-    
-    traceapp3 = go.Scatter(x = df_apple_city.Date, y = df_apple_city.walking,
-                        name = 'Walking',
-                        mode='lines',
-                        line=dict(width = 1, 
-                                  color='rgb(102, 255, 102)'),
-                        stackgroup='one', showlegend= False)
-    if(c < 3): 
-        fig_app.add_trace(traceapp3,
-              row=1, col=c+1)
-        fig_app.add_trace(traceapp2,
-                      row=1, col=c+1)
-        fig_app.add_trace(traceapp1,
-                      row=1, col=c+1)
-    
-    else: 
-        fig_app.add_trace(traceapp3,
-              row=2, col=c-2)
-        fig_app.add_trace(traceapp2,
-                      row=2, col=c-2)
-        fig_app.add_trace(traceapp1,
-                      row=2, col=c-2)
-        
-fig_app.update_xaxes(tickangle=45, tickfont=dict(family='Rockwell', color='black', size=10))
-
-fig_app.update_layout(height=700, width=1000, 
-                    title = 'Time Series Plot for Mobility in Major Cities',
-                    hovermode = 'x unified')
                  
 # Step 4. Create a Dash layout
 app.layout = html.Div([
                 # adding a header and a paragraph
-#                html.Div([
-#                    html.H1("US Mobility Data"),
-#                    html.P("Due to the capacity limitation of the website server, the mobility page will be presented as a gif")
-#                         ], 
-#                    style = {'padding' : '50px' , 
-#                             'backgroundColor' : '#3aaab2'}),
                  html.P([
                     html.Label("Choose a state"),
                     dcc.Dropdown(id = 'opt_s', options = opt_state,
@@ -233,9 +69,10 @@ app.layout = html.Div([
                                     min = 0,
                                     max = 6,
                                     value = [1, 5])
-                        ], style = {'width' : '85%',
+                        ], style = {'width' : '80%',
                                     'fontSize' : '18px',
-                                    'padding-left' : '100px',
+                                    'padding-left' : '120px',
+                                    'padding-right' : '120px',
                                     'display': 'inline-block'}),
     
                 dcc.Graph(id = 'all_fig')
@@ -485,10 +322,11 @@ def update_fig(input2):
     fig_app.update_xaxes(tickangle=45, tickfont=dict(family='Rockwell', color='black', size=10))
     
     fig_app.update_layout(height=700, width=1000, 
-                        title = 'Time Series Plot for Mobility in Major Cities',
+                        title = 'Time Series Plot for Mobility',
                         hovermode = 'x unified')
 
     return fig_app
 
 if __name__ == "__main__":
     app.run_server(debug=True, port=3004, use_reloader=False)
+
