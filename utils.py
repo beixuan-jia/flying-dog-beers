@@ -1,0 +1,21 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed May  6 20:05:54 2020
+
+@author: jiabx
+"""
+
+import requests
+
+def count_words_at_url(url):
+    resp = requests.get(url)
+    return len(resp.text.split())
+
+from rq import Queue
+from worker import conn
+
+q = Queue(connection=conn)
+
+from utils import count_words_at_url
+
+result = q.enqueue(count_words_at_url, 'http://heroku.com')
